@@ -11,9 +11,9 @@ if(isset($_SESSION['user_id'])){
     
     
     if($role==1){
-    $sql = "SELECT * FROM reservation WHERE user_fk = $user";
+    $sql = "SELECT * FROM booking b join User u on b.User_Id=u.Id  WHERE u.Id = $user";
     $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) {
         
         
         echo
@@ -36,13 +36,13 @@ if(isset($_SESSION['user_id'])){
                 <tbody>
                     <tr>
                     <form action='includes/delete.php' method='POST'>
-                    <input name='reserv_id' type='hidden' value=".$row["reserv_id"].">
-                        <th scope='row'>".$row["f_name"]." ".$row["l_name"]."</th>
-                        <td>".$row["num_guests"]."</td>
-                        <td>".$row["rdate"]."</td>
-                        <td>".$row["time_zone"]."</td>
+                    <input name='reserv_id' type='hidden' value=".$row["id"].">
+                        <th scope='row'>".$row["FirstName"]." ".$row["LastName"]."</th>
+                        <td>".$row["NumberOfSeat"]."</td>
+                        <td>".$row["BookingDate"]."</td>
+                        <td>".$row["BookingTime"]."</td>
                         <td>".$row["telephone"]."</td>
-                        <td>".$row["reg_date"]."</td>
+                        <td>".$row["CreationTimestamp"]."</td>
                         <td><textarea readonly>".$row["comment"]."</textarea></td>
                         <td class='table-danger'><button type='submit' name='delete-submit' class='btn btn-danger btn-sm'>Cancel</button></td>
                             </form>
@@ -61,7 +61,7 @@ if(isset($_SESSION['user_id'])){
     //role visu
     
     else if($role==2){
-    $sql = "SELECT * FROM reservation";
+    $sql = "SELECT * FROM booking";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         
